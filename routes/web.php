@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//人像动漫化
 Route::get('/getCartoonPhoto', 'cartoon@getCartoon');
