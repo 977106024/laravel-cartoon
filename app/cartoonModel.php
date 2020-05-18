@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class cartoonModel extends Model
 {
     //表
-    protected $table = 'test';
+    protected $table = 'cartoon';
     //主键
     protected $primaryKey = 'id';
     //定义是否能操作时间
