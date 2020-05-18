@@ -13,9 +13,10 @@ class cartoon extends Controller
         $model -> name = '毛小月';
         $model -> photo = 'imgxxxx';
         $model -> cartoon = 'img2222';
-        $model -> created_at = '121323124';
+        // $model -> created_at = '121323124';
 
         $res = $model -> save();
+        // echo 'xxx成功？';
         dd($res);
     }
     
