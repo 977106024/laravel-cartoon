@@ -19,3 +19,8 @@ Route::get('/', function () {
 
 //人像动漫化
 Route::get('/getCartoonPhoto', 'cartoon@getCartoon');
+
+//跨域测试
+Route::get('/abc', function(Request $request){
+    return response()->json(['Hello Laravel with CORS']);
+});

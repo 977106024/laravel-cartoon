@@ -38,7 +38,7 @@ class cartoon extends Controller
             ]
         ]);
         $b = json_decode($imgRes->getBody()->getContents(), true);        
-        dd($b);
+        return $b;
             
           // 存入数据库
         // $model = new cartoonModel();
