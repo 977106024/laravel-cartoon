@@ -24,4 +24,12 @@ Route::group(['prefix' => 'auth'], function(){
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+
+   
+});
+
+
+Route::group(['middleware' => 'auth:api'], function() {
+     //人像动漫化
+     Route::post('/getCartoonPhoto', 'cartoon@getCartoon')->middleware('imgBase64');
 });

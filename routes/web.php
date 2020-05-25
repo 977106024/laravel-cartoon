@@ -17,8 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//人像动漫化
-Route::post('/getCartoonPhoto', 'cartoon@getCartoon')->middleware('imgBase64');
+
 
 //跨域测试
 Route::get('/abc', function(Request $request){
