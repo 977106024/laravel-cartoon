@@ -24,3 +24,11 @@ Route::post('/getCartoonPhoto', 'cartoon@getCartoon')->middleware('imgBase64');
 Route::get('/abc', function(Request $request){
     return response()->json(['Hello Laravel with CORS']);
 });
+
+Route::get('/register', function(){
+    \App\Models\users_tokens::create([
+        'name' => '123',
+        'email' => '123@123.com',
+        'password' => \Illuminate\Support\Facades\Hash::make('123456'),
+    ]);
+});
