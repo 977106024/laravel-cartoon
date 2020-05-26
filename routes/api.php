@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:a')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -29,7 +29,8 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'auth:a'], function() {
      //人像动漫化
-     Route::post('/getCartoonPhoto', 'cartoon@getCartoon')->middleware('imgBase64');
+     Route::post('/getCartoonPhoto', 'cartoon@getCartoon');
 });
+
