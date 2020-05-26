@@ -11,10 +11,17 @@ use GuzzleHttp\Client;
 
 class cartoon extends Controller
 {
-    public function getCartoon(Request $request){
+    public function getCartoon(Request $request) {
+      $file = $request->file("photo"); //文件
 
-        $request -> file('photo') -> move('/public/upload');
+      //文件是否正常
+      if($file && $file -> isValid()){
+        
+        $extension = $file -> getClientOriginalExtension(); //获取上传图片的后缀名
+        $newImagesName = md5(time()).rand(100000,99999).".".$extension; //重新命名上传文件名字
+        $file -> move("upload",$newImagesName); //移动文件
         return 'ok';
+      }
         // //请求参数
         // $params = $request -> all();
         
