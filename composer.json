@@ -18,6 +18,7 @@
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.3",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
         "mockery/mockery": "^1.3.1",
@@ -41,7 +42,11 @@
         "classmap": [
             "database/seeds",
             "database/factories"
-        ]
+        ],
+        
+"files":[
+    "app/utils/functions.php"]
+
     },
     "autoload-dev": {
         "psr-4": {
