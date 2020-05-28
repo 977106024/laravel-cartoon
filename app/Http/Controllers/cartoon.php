@@ -28,21 +28,14 @@ class cartoon extends Controller
         $access_token = $a['access_token'];
         
           
-        //图片转base64
-        $imgUrl = $params['imgUrl'];
-        $base64Img = Base64EncodeImage($imgUrl);
-
-        //去掉base64头部
-        $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
-
         //cartoon 请求百度AI 处理图片
         $imgRes = $http -> post('https://aip.baidubce.com/rest/2.0/image-process/v1/selfie_anime',[
             'form_params' => [
                 'access_token' => $access_token,
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'image' => $base64Incomplete,
-                'mask_id' => $params['mask_id'],
-                'type' => $params['type']
+                'image' => $params['imgUrl'], //base64图片
+                'mask_id' => $params['mask_id'], //口罩数字
+                'type' => $params['type'] //是否戴口罩
             ]
         ]);
         $b = json_decode($imgRes->getBody()->getContents(), true);        
@@ -74,8 +67,14 @@ class cartoon extends Controller
         $newImagesName = md5(time()).rand(100000,99999).".".$extension; //重新命名上传文件名字
         $file -> move("upload",$newImagesName); //移动文件
 
-        return ['upload/'.$newImagesName];
        
+        //图片转base64
+        $base64Img = Base64EncodeImage('upload/'.$newImagesName);
+        
+        //去掉base64头部
+        $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
+
+        return [$base64Incomplete];
 
         //把图片存到服务器 图片域名文件夹下
 
