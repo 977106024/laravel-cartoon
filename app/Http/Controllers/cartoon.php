@@ -7,21 +7,15 @@ use App\cartoonModel;
 
 
 use GuzzleHttp\Client;
-// require './../public/base64Test.php';
-$base64Incomplete;
+
 
 class cartoon extends Controller
 {
-
- 
-
     public function getCartoon(Request $request) {
         $params = $request -> all();
 
-        return dd($params);
-
         //百度AI
-        $http = new Client(['verify' => false ]);
+        $http = new Client(['verify' => false ]); //client对象发请求
         //get access_token
         $response = $http -> get('https://aip.baidubce.com/oauth/2.0/token',[
             'query' => [
@@ -33,15 +27,22 @@ class cartoon extends Controller
         $a = json_decode($response->getBody()->getContents(), true);
         $access_token = $a['access_token'];
         
-        global $base64Incomplete;
+          
+        //图片转base64
+        $imgUrl = $params['imgUrl'];
+        $base64Img = Base64EncodeImage($imgUrl);
+
+        //去掉base64头部
+        $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
+
         //cartoon 请求百度AI 处理图片
         $imgRes = $http -> post('https://aip.baidubce.com/rest/2.0/image-process/v1/selfie_anime',[
             'form_params' => [
                 'access_token' => $access_token,
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'image' => $base64Incomplete,
-                'mask_id' => $params->mask_id,
-                'type' => $params->type
+                'mask_id' => $params['mask_id'],
+                'type' => $params['type']
             ]
         ]);
         $b = json_decode($imgRes->getBody()->getContents(), true);        
@@ -73,10 +74,8 @@ class cartoon extends Controller
         $newImagesName = md5(time()).rand(100000,99999).".".$extension; //重新命名上传文件名字
         $file -> move("upload",$newImagesName); //移动文件
 
-        //图片转base64
-        $base64Img = Base64EncodeImage('upload/'.$newImagesName);
-        
-        $_GLOBAL['$base64Incomplete'] = str_replace('data:image/jpeg;base64,','',$base64Img);
+        return ['upload/'.$newImagesName];
+       
 
         //把图片存到服务器 图片域名文件夹下
 
