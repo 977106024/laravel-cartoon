@@ -8,21 +8,17 @@ use App\cartoonModel;
 
 use GuzzleHttp\Client;
 // require './../public/base64Test.php';
+$base64Incomplete;
 
 class cartoon extends Controller
 {
+
+ 
+
     public function getCartoon(Request $request) {
-      $file = $request->file("photo"); //文件
+        $params = $request -> all();
 
-      //文件是否正常
-      if($file && $file -> isValid()){
-
-        $extension = $file -> getClientOriginalExtension(); //获取上传图片的后缀名
-        $newImagesName = md5(time()).rand(100000,99999).".".$extension; //重新命名上传文件名字
-        $file -> move("upload",$newImagesName); //移动文件
-        $base64Img = Base64EncodeImage('upload/'.$newImagesName);
-        $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
-        
+        return dd($params);
 
         //百度AI
         $http = new Client(['verify' => false ]);
@@ -37,23 +33,20 @@ class cartoon extends Controller
         $a = json_decode($response->getBody()->getContents(), true);
         $access_token = $a['access_token'];
         
-        
-       
-
+        global $base64Incomplete;
         //cartoon 请求百度AI 处理图片
         $imgRes = $http -> post('https://aip.baidubce.com/rest/2.0/image-process/v1/selfie_anime',[
             'form_params' => [
                 'access_token' => $access_token,
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'image' => $base64Incomplete
+                'image' => $base64Incomplete,
+                'mask_id' => $params->mask_id,
+                'type' => $params->type
             ]
         ]);
         $b = json_decode($imgRes->getBody()->getContents(), true);        
         return  $b;
-        
-      }else{
-        return ['文件错误！'];
-      };
+      
       
     
             
@@ -68,6 +61,32 @@ class cartoon extends Controller
         // $res = $model -> save();
         // // echo 'xxx成功？';
         // dd($res);
+    }
+
+    public function upload (Request $request){
+      $file = $request->file("photo"); //文件
+
+      //文件是否正常
+      if($file && $file -> isValid()){
+
+        $extension = $file -> getClientOriginalExtension(); //获取上传图片的后缀名
+        $newImagesName = md5(time()).rand(100000,99999).".".$extension; //重新命名上传文件名字
+        $file -> move("upload",$newImagesName); //移动文件
+
+        //图片转base64
+        $base64Img = Base64EncodeImage('upload/'.$newImagesName);
+        
+        $_GLOBAL['$base64Incomplete'] = str_replace('data:image/jpeg;base64,','',$base64Img);
+
+        //把图片存到服务器 图片域名文件夹下
+
+        //把图片在线地址存到数据库
+
+
+        return [true];
+      }else{
+        return ['文件错误！'];
+      };
     }
     
 }

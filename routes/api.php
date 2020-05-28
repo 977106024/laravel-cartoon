@@ -30,7 +30,10 @@ Route::group(['prefix' => 'auth'], function(){
 
 
 Route::group(['middleware' => 'auth:a'], function() {
+     //上传图片
+     Route::post('/upload', 'cartoon@upload');
+
      //人像动漫化
-     Route::post('/getCartoonPhoto', 'cartoon@getCartoon');
+     Route::post('/getCartoon', 'cartoon@getCartoon');
 });
 
