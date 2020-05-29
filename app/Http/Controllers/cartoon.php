@@ -82,9 +82,13 @@ class cartoon extends Controller
         $model -> name = $user['name'];
         $model -> photo = $path;
         $res = $model -> save();
+        $id = $model->id;
 
         if($res){
-          return [$base64Incomplete];
+          return [
+            'id'=>$id,
+            'img'=> $base64Incomplete
+          ];
         }else{
           return ['入库失败'];
         }
