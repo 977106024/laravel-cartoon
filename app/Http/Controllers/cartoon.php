@@ -39,8 +39,9 @@ class cartoon extends Controller
                 'type' => $params['type'] //是否戴口罩
             ]
         ]);
-        $b = json_decode($imgRes->getBody()->getContents(), true);        
-        return  $b;
+        $base64Img = json_decode($imgRes->getBody()->getContents(), true);
+        $imgUrl = base64_image_content('data:image/jpeg;base64,' . $base64Img['image'],'upload/cartoon');        
+        return $imgUrl;
       
       
     
