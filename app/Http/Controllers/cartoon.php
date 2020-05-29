@@ -17,15 +17,16 @@ class cartoon extends Controller
         //百度AI
         $http = new Client(['verify' => false ]); //client对象发请求
         //get access_token
-        $response = $http -> get('https://aip.baidubce.com/oauth/2.0/token',[
-            'query' => [
-                'grant_type' => 'client_credentials',
-                'client_id' => 'f17IpDaOaBrKhSU1X4KEAIlT',
-                'client_secret'=>'nEP7ix9bKMxGd23LmGW482sVXQY80G2a',
-            ]
-        ]);
-        $a = json_decode($response->getBody()->getContents(), true);
-        $access_token = $a['access_token'];
+        // $response = $http -> get('https://aip.baidubce.com/oauth/2.0/token',[
+        //     'query' => [
+        //         'grant_type' => 'client_credentials',
+        //         'client_id' => 'f17IpDaOaBrKhSU1X4KEAIlT',
+        //         'client_secret'=>'',
+        //     ]
+        // ]);
+        // $a = json_decode($response->getBody()->getContents(), true);
+        // $access_token = $a['access_token'];
+        $access_token = '24.48ab942facbffd0bb7c6702f81bc2d79.2592000.1593316517.282335-19902100';
         
           
         //cartoon 请求百度AI 处理图片
