@@ -11,8 +11,8 @@ class cartoonModel extends Model
     //主键
     protected $primaryKey = 'id';
     //定义是否能操作时间
-    public $timestamps = false;
+    public $timestamps = true;
     //设置字段
-    protected $fillable = ['id','name','photo','cartoon'];
+    protected $fillable = ['id','name','photo','cartoon','created_at','updated_at'];
 
 }

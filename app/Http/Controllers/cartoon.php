@@ -46,7 +46,7 @@ class cartoon extends Controller
       
     
             
-          // 存入数据库
+          //存入数据库
         // $model = new cartoonModel();
         
         // $model -> name = '毛小月';
@@ -55,8 +55,7 @@ class cartoon extends Controller
         // // $model -> created_at = '121323124';
 
         // $res = $model -> save();
-        // // echo 'xxx成功？';
-        // dd($res);
+       
     }
 
     public function upload (Request $request){
@@ -71,17 +70,26 @@ class cartoon extends Controller
 
        
         //图片转base64
-        $base64Img = Base64EncodeImage('upload/'.$newImagesName);
+        $path = 'upload/'.$newImagesName;
+        $base64Img = Base64EncodeImage($path);
         
         //去掉base64头部
         $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
 
-        return [$base64Incomplete];
+        //把图片在线地址存到数据库
+        $model = new cartoonModel();
+    
+        $model -> name = '毛小月';
+        $model -> photo = $path;
+        $res = $model -> save();
+
+        if($res){
+          return [$base64Incomplete];
+        }else{
+          return ['入库失败'];
+        }
 
         //把图片存到服务器 图片域名文件夹下
-
-        //把图片在线地址存到数据库
-
 
         return [true];
       }else{
