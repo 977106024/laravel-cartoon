@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\cartoonModel;
-
-
 use GuzzleHttp\Client;
 
 
@@ -75,11 +73,13 @@ class cartoon extends Controller
         
         //去掉base64头部
         $base64Incomplete = str_replace('data:image/jpeg;base64,','',$base64Img);
+        
+        //获取用户信息
+        $user = auth('a')->user();
 
         //把图片在线地址存到数据库
         $model = new cartoonModel();
-    
-        $model -> name = '毛小月';
+        $model -> name = $user['name'];
         $model -> photo = $path;
         $res = $model -> save();
 
