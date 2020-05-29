@@ -39,21 +39,16 @@ class cartoon extends Controller
         ]);
         $base64Img = json_decode($imgRes->getBody()->getContents(), true);
         $imgUrl = base64_image_content('data:image/jpeg;base64,' . $base64Img['image'],'upload/cartoon');        
-        return $imgUrl;
-      
-      
-    
-            
+              
           //存入数据库
-        // $model = new cartoonModel();
+        $model = new cartoonModel();
         
-        // $model -> name = '毛小月';
-        // $model -> photo = 'imgxxxx';
-        // $model -> cartoon = 'img2222';
-        // // $model -> created_at = '121323124';
-
-        // $res = $model -> save();
-       
+        $res = $model::where('id',$params['id'])->update(['cartoon' => $imgUrl]);
+        if($res){
+          return ['img'=>$imgUrl];
+        }else{
+          return ['msg'=>'入库失败'];
+        }
     }
 
     public function upload (Request $request){
@@ -90,14 +85,14 @@ class cartoon extends Controller
             'img'=> $base64Incomplete
           ];
         }else{
-          return ['入库失败'];
+          return ['msg'=>'入库失败'];
         }
 
         //把图片存到服务器 图片域名文件夹下
 
-        return [true];
+        return ['msg'=>true];
       }else{
-        return ['文件错误！'];
+        return ['msg'=>'文件错误！'];
       };
     }
     
